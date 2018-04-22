@@ -1,11 +1,13 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Firebase Functions
+# Firebase
 /functions/node_modules
+firebase.json
+.firebaserc
 
 # Production 
 /src/environments/environment.prod.ts
-# compiled output
+`# compiled output
 /dist
 /dist-server
 /tmp
