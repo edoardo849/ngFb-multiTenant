@@ -5,7 +5,26 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Requirements
 
 - `npm install -g firebase-tools`
+- Write functions using TypeScript [guide](https://firebase.google.com/docs/functions/typescript)
 - To run and test the Cloud Function locally, follow [these steps](https://firebase.google.com/docs/functions/local-emulator)
+
+To run Firebase functions locally
+
+```bash
+
+cd ./functions
+npm run serve
+
+```
+
+To trigger functions using the shell:
+
+```bash
+
+cd ./functions
+functions:shell
+
+```
 
 ## Development server
 
