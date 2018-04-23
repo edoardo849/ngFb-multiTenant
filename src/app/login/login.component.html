@@ -1,3 +1,11 @@
-<p>
-  login works!
-</p>
+<h1>Login</h1>
+
+<label>email:
+  <input placeholder="email" [formControl]="email">
+</label>
+
+<label>password:
+  <input placeholder="password" [formControl]="password">
+</label>
+
+<button (click)="auth.login(email.value, password.value)">login</button>
