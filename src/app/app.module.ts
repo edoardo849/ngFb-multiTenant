@@ -10,7 +10,17 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AddUserComponent } from './admin/add-user/add-user.component';
+import { AuthService } from './core/auth.service';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+
+import { environment } from '../environments/environment'
+import { LoggerService } from './core/logger/logger.service';
+import { ConsoleLoggerService } from './core/logger/console-logger.service';
+import { FirestoreService } from './core/firestore.service';
 
 @NgModule({
   declarations: [
@@ -21,12 +31,24 @@ import { AddUserComponent } from './admin/add-user/add-user.component';
     AddUserComponent
   ],
   imports: [
+    AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase, 'ngFb-multiTenant'),
+    AngularFireStorageModule,
+
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    FirestoreService,
+    {
+      provide: LoggerService,
+      useClass: ConsoleLoggerService
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

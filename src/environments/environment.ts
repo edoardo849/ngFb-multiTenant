@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-
+  isDebugMode: true,
 
   firebase: {
     apiKey: "AIzaSyA9NoT1b2vKkWx5WsECD1ZiXmLxckQLJHs",

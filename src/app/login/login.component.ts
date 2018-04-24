@@ -13,9 +13,16 @@ export class LoginComponent implements OnInit {
 
   email: FormControl = new FormControl('', [Validators.required, Validators.email]);
   password: FormControl = new FormControl('', [Validators.required]);
-  constructor() { }
+
+  constructor(
+
+    public auth: AuthService,
+  ) { }
 
   ngOnInit() {
-  }
+    if (this.auth.isLoggedIn) {
+      this.auth.signOut();
+    }
 
+  }
 }
