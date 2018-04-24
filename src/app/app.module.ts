@@ -31,6 +31,7 @@ import { FirestoreService } from './core/firestore.service';
     AddUserComponent
   ],
   imports: [
+    AppRoutingModule,
     AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
