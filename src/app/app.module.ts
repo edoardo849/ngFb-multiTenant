@@ -21,6 +21,7 @@ import { environment } from '../environments/environment'
 import { LoggerService } from './core/logger/logger.service';
 import { ConsoleLoggerService } from './core/logger/console-logger.service';
 import { FirestoreService } from './core/firestore.service';
+import { AdminGuard } from './admin/admin.guard';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,8 @@ import { FirestoreService } from './core/firestore.service';
   providers: [
     AuthService,
     FirestoreService,
+    AdminGuard,
+
     {
       provide: LoggerService,
       useClass: ConsoleLoggerService

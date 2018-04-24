@@ -7,8 +7,8 @@ export interface Roles {
 }
 
 export interface User {
-    uid: string; // This should be organizationId-userId
-    email: string;
+    uid?: string; // This should be organizationId-userId
+    email?: string;
     displayName?: string;
     roles?: Roles;
     organisationUid?: string;
