@@ -57,7 +57,7 @@ export class AuthService {
             queryParams: { 'uid': credential.uid },
             preserveFragment: true
           };
-          this.router.navigate(['/dashboard'], navigationExtras);
+          this.router.navigate(['/home'], navigationExtras);
         });
       })
       .catch(error => {

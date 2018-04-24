@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   email: FormControl = new FormControl('', [Validators.required, Validators.email]);
   password: FormControl = new FormControl('', [Validators.required]);
 
+  hidePassword = true;
+
   constructor(
 
     public auth: AuthService,
