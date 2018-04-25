@@ -4,6 +4,8 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '../core/auth.service'
 
+import { LoggerService } from '../core/logger/logger.service'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(
 
     public auth: AuthService,
+    private _logger: LoggerService
   ) { }
 
   ngOnInit() {

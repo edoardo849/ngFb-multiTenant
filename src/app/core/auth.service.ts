@@ -53,12 +53,17 @@ export class AuthService {
       .then((credential) => {
         this._logger.info(`User ${credential.uid} signed in`);
         this._updateUserData(credential).then(() => {
+
           const navigationExtras: NavigationExtras = {
             queryParams: { 'uid': credential.uid },
             preserveFragment: true
           };
           this.router.navigate(['/home'], navigationExtras);
-        });
+        })
+          .catch(error => {
+            this.handleLoginError(error);
+          });
+
       })
       .catch(error => {
         this.handleLoginError(error);
@@ -71,20 +76,19 @@ export class AuthService {
   }
 
   private handleLoginError(error) {
+    this._logger.error(`login error`, error);
     this.loginHasError = true;
     this.loginErrorMessage = error;
   }
 
   // BUG is here, update user, then fetch it again
   // from the database.
-  private _updateUserData(user): Promise<void> {
+  private _updateUserData(authCredentials: AuthCredentials): Promise<void> {
 
-    const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${authCredentials.uid}`);
 
     const data: User = {
-      uid: user.uid,
-      email: user.email,
-      signedIn: this.db.timestamp
+      signedIn: this.db.timestamp,
     };
 
     return userRef.set(data, { merge: true });
@@ -146,4 +150,10 @@ export class AuthService {
     return false;
   }
 
+}
+
+
+export interface AuthCredentials {
+  email: string;
+  uid: string
 }
