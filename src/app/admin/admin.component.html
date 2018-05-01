@@ -1,3 +1,8 @@
 <p>
   admin works!
 </p>
+<h1>Create New User</h1>
+<label>email:
+  <input placeholder="email" [formControl]="email">
+</label>
+<button (click)="addUser()">Add user to FireStore</button>

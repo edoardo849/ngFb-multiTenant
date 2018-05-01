@@ -8,12 +8,12 @@ export const environment = {
   isDebugMode: true,
 
   firebase: {
-    apiKey: "AIzaSyA9NoT1b2vKkWx5WsECD1ZiXmLxckQLJHs",
-    authDomain: "ngfb-multitenant.firebaseapp.com",
-    databaseURL: "https://ngfb-multitenant.firebaseio.com",
-    projectId: "ngfb-multitenant",
-    storageBucket: "ngfb-multitenant.appspot.com",
-    messagingSenderId: "105654261497"
+    apiKey: 'AIzaSyA9NoT1b2vKkWx5WsECD1ZiXmLxckQLJHs',
+    authDomain: 'ngfb-multitenant.firebaseapp.com',
+    databaseURL: 'https://ngfb-multitenant.firebaseio.com',
+    projectId: 'ngfb-multitenant',
+    storageBucket: 'ngfb-multitenant.appspot.com',
+    messagingSenderId: '105654261497'
+    // projectId: // this may be needed for later versions of AngularFire
   }
-
 };
