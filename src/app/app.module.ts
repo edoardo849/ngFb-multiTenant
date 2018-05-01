@@ -17,7 +17,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 
-import { environment } from '../environments/environment'
+import { environment } from '../environments/environment';
 import { LoggerService } from './core/logger/logger.service';
 import { ConsoleLoggerService } from './core/logger/console-logger.service';
 import { FirestoreService } from './core/firestore.service';
@@ -41,20 +41,19 @@ import { AuthGuard } from './core/auth.guard';
     ReactiveFormsModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase, 'ngFb-multiTenant'),
-    AngularFireStorageModule,
-
+    AngularFireStorageModule
   ],
   providers: [
     AuthService,
     FirestoreService,
     AuthGuard,
+    AdminGuard,
 
     {
       provide: LoggerService,
-      useClass: ConsoleLoggerService,
-
-    },
+      useClass: ConsoleLoggerService
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
