@@ -24,6 +24,9 @@ import { FirestoreService } from './core/firestore.service';
 import { AdminGuard } from './core/admin.guard';
 import { AuthGuard } from './core/auth.guard';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppMaterialModule } from './core/app-material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,9 @@ import { AuthGuard } from './core/auth.guard';
     ReactiveFormsModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase, 'ngFb-multiTenant'),
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    BrowserAnimationsModule,
+    AppMaterialModule
   ],
   providers: [
     AuthService,

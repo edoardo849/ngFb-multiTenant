@@ -34,7 +34,26 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  // TODO: make validators work
+  // TODO: make validators work - add error checks
+
+  getEmailErrorMessage() {
+    const field = this.form.controls.email;
+    return field.hasError('required')
+      ? 'You must enter a value'
+      : field.hasError('email')
+        ? 'Not a valid email'
+        : '';
+  }
+
+  getNameErrorMessage() {
+    const field = this.form.controls.displayName;
+    return field.hasError('required') ? 'You must enter a value' : '';
+  }
+
+  getRoleErrorMessage() {
+    const field = this.form.controls.roles;
+    return field.hasError('required') ? 'You must select a value' : '';
+  }
 
   addUser() {
     this._log.log('Attempting to add new user (admin)');
@@ -49,8 +68,11 @@ export class AddUserComponent implements OnInit {
       .then(response => {
         this._log.log(response);
 
-        const newUserRef: User['uid'] = response.id;
-        this._log.log(newUserRef);
+        const newUserUid: User['uid'] = response.id;
+        this._log.log(`New user created with uid: ${newUserUid}`);
+      })
+      .catch(err => {
+        this._log.warn(err);
       });
 
     // if the "write" operation was succesful, show a message and log
