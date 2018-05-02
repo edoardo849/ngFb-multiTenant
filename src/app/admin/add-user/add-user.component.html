@@ -1,3 +1,8 @@
-<p>
-  add-user works!
-</p>
+<form [formGroup]="form">
+  <input placeholder="email" formControlName="email">
+  <input placeholder="display name" formControlName="displayName">
+  <input placeholder="role" formControlName="roles">
+
+  <button (click)="addUser()">Add user to FireStore</button>
+
+</form>
