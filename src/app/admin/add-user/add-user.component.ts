@@ -57,6 +57,7 @@ export class AddUserComponent implements OnInit {
 
   addUser() {
     this._log.log('Attempting to add new user (admin)');
+    // TODO: alert user that creation is in progress
     const formValues = this.form.controls;
     return this._afs
       .collection<NewUser>('newUsers')
@@ -70,12 +71,15 @@ export class AddUserComponent implements OnInit {
 
         const newUserUid: User['uid'] = response.id;
         this._log.log(`New user created with uid: ${newUserUid}`);
+        // TODO: alert user that acc created
       })
       .catch(err => {
+        // alert(ERROR!)
         this._log.warn(err);
       });
 
     // if the "write" operation was succesful, show a message and log
     // if the "wirte " op was not succesfful, then console error and show dialog
+    // ^^ e.g. when offline, slow network (timeout 40x returned by FB)
   }
 }
