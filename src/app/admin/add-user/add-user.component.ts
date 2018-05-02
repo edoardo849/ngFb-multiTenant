@@ -48,6 +48,9 @@ export class AddUserComponent implements OnInit {
       })
       .then(response => {
         this._log.log(response);
+
+        const newUserRef: User['uid'] = response.id;
+        this._log.log(newUserRef);
       });
 
     // if the "write" operation was succesful, show a message and log
