@@ -19,5 +19,5 @@ exports.createUser = functions.firestore
     const name = newValue.displayName;
     // perform desired operations ...
     console.log(name);
-    return name;
+    return 0;
   });
