@@ -1,23 +1,42 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-// const functions = require('firebase-functions');
+import { userRecordConstructor } from 'firebase-functions/lib/providers/auth';
 
-exports.createUser = functions.firestore
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
+var db = admin.firestore();
+
+exports.createTempUser = functions.firestore
+
   .document('newUsers/{userId}')
   .onCreate(async (snap, context) => {
     // Get an object representing the document
     // e.g. {'name': 'Marie', 'age': 66}
     const newValue = snap.data();
 
-    // access a particular field as you would any JS property
-    const name = newValue.displayName;
     // perform desired operations ...
-    console.log(name);
+    console.log(newValue.name);
+
+    // const tempUid = newValue.userId;
+
+    admin
+      .auth()
+      .createUser({
+        email: newValue.email,
+        password: 'Password123',
+        displayName: newValue.displayName,
+        disabled: false
+      })
+      .then(function(userRecord) {
+        console.log('Sucessfully created new Auth user:', userRecord.uid);
+      })
+      .catch(function(error) {
+        console.log('Error creating new Auth user:', error);
+      });
+
     return 0;
   });
+
+// exports.sendPasswordResetEmail = functions.auth.user().onCreate(user => {
+// TODO:
+// });
