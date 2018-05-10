@@ -11,17 +11,14 @@ import { LoggerService } from '../core/logger/logger.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
   constructor(
     private _router: Router,
     public auth: AuthService,
     private _logger: LoggerService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   navigateTo(location) {
     this._router.navigate([location]);
   }
-
 }

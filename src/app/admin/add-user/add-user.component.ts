@@ -64,7 +64,8 @@ export class AddUserComponent implements OnInit {
       .add({
         email: formValues.email.value,
         displayName: formValues.displayName.value,
-        roles: formValues.roles.value
+        roles: formValues.roles.value,
+        passwordRequiresReset: true
       })
       .then(response => {
         this._log.log(response);

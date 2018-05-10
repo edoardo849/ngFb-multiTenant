@@ -5,30 +5,22 @@ export interface Roles {
   isSuperAdmin?: boolean; // Staff
 }
 
-export interface User {
-  uid?: string; // This should be organizationId-userId
-  email?: string;
-  displayName?: string;
-  roles?: Roles;
-  organisationUid?: string;
-  signedIn?: any;
+export interface NewUser {
+  email: string;
+  displayName: string;
+  roles: Roles;
+  passwordRequiresReset: boolean;
+}
 
-  // The number of notifications
-  // that the user hasn't yet read.
-  // The count is set by the cloud function
-  // and reset by visiting the notification page
-  newNotificationsCount?: number;
+export interface LoggedInUser {
+  signedIn: any; // holds timestamp for login actions - in auth.service
+}
 
+export interface User extends NewUser, LoggedInUser {
+  uid: string; // This should be organizationId-userId
   // The fcmTokens will be mapped to the user document.
   // The resulting document looks like this in plain JS
   // Each token represents a different device to which the user has granted messaging permission.
   // https://angularfirebase.com/lessons/push-messages-with-firestore/
   fcmTokens?: { [token: string]: true };
-}
-
-export interface NewUser {
-  email: string;
-  displayName: string;
-  roles: Roles;
-  // organisationUid: string;
 }

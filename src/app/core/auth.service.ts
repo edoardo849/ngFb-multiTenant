@@ -7,14 +7,13 @@ import { LoggerService } from './logger/logger.service';
 
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
-import { User } from './user';
-//import { Organisation } from '../organisation';
+import { User, LoggedInUser } from './user';
+// import { Organisation } from '../organisation';
 
 import { FirestoreService } from './firestore.service';
 
 @Injectable()
 export class AuthService {
-
   user$: Observable<User>;
   userData: User;
 
@@ -23,47 +22,52 @@ export class AuthService {
   loginErrorMessage: string;
 
   constructor(
-    private afAuth: AngularFireAuth,
+    private _afAuth: AngularFireAuth,
     private _logger: LoggerService,
-
-    private router: Router,
-    private db: FirestoreService,
-
+    private _router: Router,
+    private _db: FirestoreService
   ) {
     // this.signOut();
     //// Get auth data, then get firestore user document || null
-    this.user$ = this.afAuth.authState
-      .switchMap(user => {
-        if (user) {
-          this.isLoggedIn = true;
-          return this.db.doc<User>(`users/${user.uid}`)
-            .valueChanges()
-            .do(data => this.userData = data);
-        } else {
-          this.isLoggedIn = false;
-          return Observable.of(null);
-        }
-      });
+    this.user$ = this._afAuth.authState.switchMap(user => {
+      if (user) {
+        this.isLoggedIn = true;
+        return this._db
+          .doc<User>(`users/${user.uid}`)
+          .valueChanges()
+          .do(data => (this.userData = data));
+      } else {
+        this.isLoggedIn = false;
+        return Observable.of(null);
+      }
+    });
   }
 
   login(email: string, password: string) {
     this._logger.info(`Signing in user ${email}`);
     this.resetLoginError();
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then((credential) => {
+    return this._afAuth.auth
+      .signInWithEmailAndPassword(email, password)
+      .then(credential => {
         this._logger.info(`User ${credential.uid} signed in`);
-        this._updateUserData(credential).then(() => {
+        // no update, this is stupid
+        // grab user id, we access the user/{id} doc
+        // we check the mustResetPassword field
+        // if true, redirect user to
+        // reset-password FORM, there you
+        // are setting the user password again.
 
-          const navigationExtras: NavigationExtras = {
-            queryParams: { 'uid': credential.uid },
-            preserveFragment: true
-          };
-          this.router.navigate(['/home'], navigationExtras);
-        })
+        this._updateUserData(credential)
+          .then(() => {
+            const navigationExtras: NavigationExtras = {
+              queryParams: { uid: credential.uid },
+              preserveFragment: true
+            };
+            this._router.navigate(['/home'], navigationExtras);
+          })
           .catch(error => {
             this.handleLoginError(error);
           });
-
       })
       .catch(error => {
         this.handleLoginError(error);
@@ -84,33 +88,32 @@ export class AuthService {
   // BUG is here, update user, then fetch it again
   // from the database.
   private _updateUserData(authCredentials: AuthCredentials): Promise<void> {
+    const userRef: AngularFirestoreDocument<LoggedInUser> = this._db.doc(
+      `users/${authCredentials.uid}`
+    );
 
-    const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${authCredentials.uid}`);
-
-    const data: User = {
-      signedIn: this.db.timestamp,
+    const data: LoggedInUser = {
+      signedIn: this._db.timestamp
     };
 
     return userRef.set(data, { merge: true });
   }
 
   createUser(email: string, password: string): Promise<any> {
-    this._logger.log('Creating a new User to the Auth Service');
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+    this._logger.log('Creating a new user to the Auth Service');
+    return this._afAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   signOut() {
     this._logger.log(`Signing out the user`);
 
-    this.afAuth.auth.signOut().then(() => {
+    this._afAuth.auth.signOut().then(() => {
       this._logger.log('The user was signed out');
       this.isLoggedIn = false;
       this.userData = null;
-      this.router.navigate(['/login']);
+      this._router.navigate(['/login']);
     });
   }
-
-
 
   ///// Role-based Authorization //////
   // https://angularfirebase.com/lessons/role-based-authorization-with-firestore-nosql-and-angular-5/
@@ -141,7 +144,9 @@ export class AuthService {
 
   // determines if user has matching role
   private checkAuthorization(user: User, allowedRoles: string[]): boolean {
-    if (!user) { return false; }
+    if (!user) {
+      return false;
+    }
     for (const role of allowedRoles) {
       if (user.roles[role]) {
         return true;
@@ -149,11 +154,9 @@ export class AuthService {
     }
     return false;
   }
-
 }
-
 
 export interface AuthCredentials {
   email: string;
-  uid: string
+  uid: string;
 }
