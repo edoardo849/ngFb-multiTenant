@@ -1,0 +1,13 @@
+<p>
+  [UserName] hello Admin!
+</p>
+<p>
+  [UserName] hello subscriber
+</p>
+
+// if user.mustReset == true, then show warning + resetPasswordButton. -> Firebase then does its thing.
+
+
+
+<button (click)="navigateTo('/admin')">Admin tools</button>
+<button (click)="auth.signOut()">Logout</button>

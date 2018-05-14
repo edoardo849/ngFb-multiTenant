@@ -1,0 +1,23 @@
+<mat-card>
+  <h1>Create New User</h1>
+
+  <form class="user-form" [formGroup]="form">
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="email" formControlName="email">
+      <mat-error *ngIf="form.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="display name" formControlName="displayName">
+      <mat-error *ngIf="form.controls.displayName.invalid">{{getNameErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="role" formControlName="roles">
+      <mat-error *ngIf="form.controls.roles.invalid">{{getRoleErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <button (click)="addUser()" [disabled]="form.invalid" mat-raised-button mat-button color="accent">Add user to FireStore</button>
+  </form>
+</mat-card>

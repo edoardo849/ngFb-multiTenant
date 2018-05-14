@@ -1,0 +1,16 @@
+<h1>Login</h1>
+
+<!-- TODO: 
+  - make pretty w/ material
+  - error messages
+ -->
+
+<label>email:
+  <input placeholder="email" [formControl]="email">
+</label>
+
+<label>password:
+  <input placeholder="password" [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
+</label>
+
+<button (click)="auth.login(email.value, password.value)">login</button>
